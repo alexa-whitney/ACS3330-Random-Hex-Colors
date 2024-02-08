@@ -12,7 +12,13 @@
   width: 100px;
   height: 100px;
   margin: 10px; 
-  background-color: #f00; /* Placeholder color, will be removed later */
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.square:hover {
+  transform: scale(1.1); 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 /* New styles */
