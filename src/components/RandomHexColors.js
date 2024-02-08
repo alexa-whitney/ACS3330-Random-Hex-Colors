@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import '../App.css';
 
 export default function RandomHexColors() {
-	const [colors, setColor] = useState([]);
+	const [colors, setColors] = useState([]);
+	const [answer, setAnswer] = useState('');
 
 	const getRandomInt = (max) => {
 		return Math.floor(Math.random() * (max + 1));
@@ -22,20 +23,24 @@ export default function RandomHexColors() {
 		return hexColor;
 	};
 
-
-	// Get three random hex colors when the component mounts
-	useEffect(() => {
+	// Function to generate colors and select an answer
+	const generateColorsAndAnswer = () => {
 		const newColors = [getRandomHexColor(), getRandomHexColor(), getRandomHexColor()];
-		// console.log("New Colors Array:", newColors);
-		setColor(newColors);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+		setColors(newColors);
+		const newAnswer = newColors[Math.floor(Math.random() * newColors.length)]; // Select a random color from the new colors
+		setAnswer(newAnswer); // Set the "correct" color as the answer
+	};
+
+	// This function is called when the component is first rendered
+	// and when the component is updated (i.e., when the state changes)
+	useEffect(() => {
+		generateColorsAndAnswer();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []); // The empty array ensures this effect runs only once when the component is first rendered
 
 	// This function is called when the user clicks the reset button and also generates three new colors
 	const resetColors = () => {
-		const newColors = [getRandomHexColor(), getRandomHexColor(), getRandomHexColor()];
-		console.log("Reset Colors Array:", newColors);
-		setColor(newColors);
+		generateColorsAndAnswer(); // Reuse the function to reset colors and answer
 	}
 
 	// Define the click event handler for each square
@@ -49,15 +54,15 @@ export default function RandomHexColors() {
 			<div className='square-container'>
 				{colors.map((color, index) => (
 					// console.log(`Style for square ${index}:`, { backgroundColor: color }); // Log the style object for each square
-					<div 
-						key={index} 
-						className='square' 
+					<div
+						key={index}
+						className='square'
 						style={{ backgroundColor: color }}
 						onClick={() => handleSwatchClick(color)}>
-						</div>
+					</div>
 				))}
 			</div>
-			<p className='hex-color'>#XXXXXX</p> {/* Placeholder for the hex color */}
+			<p className='hex-color'>{answer}</p> {/* Display the hex code of the "correct" color */}
 			<p className='status-message'>Correct/Incorrect</p> {/* Placeholder for status message */}
 			<button className='reset-button' onClick={resetColors}>Reset/Play Again</button>
 		</div>
