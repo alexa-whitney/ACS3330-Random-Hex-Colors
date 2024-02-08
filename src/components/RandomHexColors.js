@@ -38,15 +38,24 @@ export default function RandomHexColors() {
 		setColor(newColors);
 	}
 
+	// Define the click event handler for each square
+	// This function logs the hex color of the square that was clicked
+	const handleSwatchClick = (color) => {
+		console.log(`Clicked Color: ${color}`);
+	}
+
 	return (
 		<div className='game-container'>
 			<div className='square-container'>
-				{colors.map((color, index) => {
+				{colors.map((color, index) => (
 					// console.log(`Style for square ${index}:`, { backgroundColor: color }); // Log the style object for each square
-					return (
-						<div key={index} className='square' style={{ backgroundColor: color }}></div>
-					);
-				})}
+					<div 
+						key={index} 
+						className='square' 
+						style={{ backgroundColor: color }}
+						onClick={() => handleSwatchClick(color)}>
+						</div>
+				))}
 			</div>
 			<p className='hex-color'>#XXXXXX</p> {/* Placeholder for the hex color */}
 			<p className='status-message'>Correct/Incorrect</p> {/* Placeholder for status message */}
