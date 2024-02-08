@@ -6,7 +6,7 @@ export default function RandomHexColors() {
 	const [colors, setColors] = useState([]);
 	const [answer, setAnswer] = useState('');
 	const [feedback, setFeedback] = useState(''); // Hold the message that tells the user if they are correct or not
-	const [incorrectGuess, setIncorrectGuess] = useState(false); 
+	const [incorrectGuess, setIncorrectGuess] = useState(false);
 	const getRandomInt = (max) => {
 		return Math.floor(Math.random() * (max + 1));
 	}
@@ -38,7 +38,7 @@ export default function RandomHexColors() {
 	// and when the component is updated (i.e., when the state changes)
 	useEffect(() => {
 		generateColorsAndAnswer();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []); // The empty array ensures this effect runs only once when the component is first rendered
 
 	// This function is called when the user clicks the reset button and also generates three new colors
@@ -71,11 +71,25 @@ export default function RandomHexColors() {
 						className={`square ${incorrectGuess && color === answer ? 'correct-swatch' : ''}`}
 						style={{ backgroundColor: color }}
 						onClick={() => handleSwatchClick(color)}>
+						{/* Conditionally render the hex color text */}
+						{feedback && (
+							<span style={{
+								position: 'absolute',
+								bottom: '5px',
+								right: '5px',
+								color: '#FFF',
+								fontSize: '12px',
+								fontWeight: 'bold',
+								textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)' // Enhance readability over varying colors
+							}}>
+								{color.toUpperCase()}
+							</span>
+						)}
 					</div>
 				))}
 			</div>
-			<p className='hex-color'>{answer}</p> 
-			<p className='status-message'>{feedback}</p> 
+			<p className='hex-color'>{answer}</p>
+			<p className='status-message'>{feedback}</p>
 			<button className='reset-button' onClick={resetColors}>Reset/Play Again</button>
 		</div>
 	);
