@@ -5,6 +5,7 @@ import '../App.css';
 export default function RandomHexColors() {
 	const [colors, setColors] = useState([]);
 	const [answer, setAnswer] = useState('');
+	const [feedback, setFeedback] = useState(''); // Hold the message that tells the user if they are correct or not
 
 	const getRandomInt = (max) => {
 		return Math.floor(Math.random() * (max + 1));
@@ -29,6 +30,7 @@ export default function RandomHexColors() {
 		setColors(newColors);
 		const newAnswer = newColors[Math.floor(Math.random() * newColors.length)]; // Select a random color from the new colors
 		setAnswer(newAnswer); // Set the "correct" color as the answer
+		setFeedback(''); // Reset feedback message when new colors are generated
 	};
 
 	// This function is called when the component is first rendered
@@ -46,8 +48,12 @@ export default function RandomHexColors() {
 	// Define the click event handler for each square
 	// This function logs the hex color of the square that was clicked
 	const handleSwatchClick = (color) => {
-		console.log(`Clicked Color: ${color}`);
-	}
+		if (color === answer) {
+			setFeedback('Correct!'); // Set the feedback message to "Correct!" if the user selects the correct color
+		} else {
+			setFeedback('Incorrect. Try again!'); // Set the feedback message to "Incorrect!" if the user selects the wrong color
+		}
+	};
 
 	return (
 		<div className='game-container'>
@@ -62,8 +68,8 @@ export default function RandomHexColors() {
 					</div>
 				))}
 			</div>
-			<p className='hex-color'>{answer}</p> {/* Display the hex code of the "correct" color */}
-			<p className='status-message'>Correct/Incorrect</p> {/* Placeholder for status message */}
+			<p className='hex-color'>{answer}</p> 
+			<p className='status-message'>{feedback}</p> 
 			<button className='reset-button' onClick={resetColors}>Reset/Play Again</button>
 		</div>
 	);
