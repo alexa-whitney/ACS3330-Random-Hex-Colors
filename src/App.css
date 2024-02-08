@@ -2,51 +2,71 @@
   text-align: center;
 }
 
-.square-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px; 
-}
-
-.square {
-  width: 100px;
-  height: 100px;
-  margin: 10px; 
-  transition: transform 0.2s;
-  cursor: pointer;
-}
-
-.square:hover {
-  transform: scale(1.1); 
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
 .game-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; 
+  height: 100vh;
 }
 
-.hex-color, .status-message {
-  margin: 10px 0; 
+.square-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.square {
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.square:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255, 87, 34, 0.8); /* Matching the countdown glow */
+}
+
+.correct-swatch {
+  animation: pulse 1s infinite;
+  border: 3px solid #00ff00;
+  box-shadow: 0 0 15px #00ff00;
+}
+
+.hex-color,
+.status-message {
+  margin: 10px 0;
+  color: #ff5722; /* Vibrant text color to match the countdown */
+  text-shadow: 0px 0px 8px rgba(255, 87, 34, 0.7);
 }
 
 .reset-button {
   margin-top: 20px;
+  cursor: pointer;
+  padding: 10px 20px;
+  background-color: #ff5722;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  text-shadow: none;
+  transition: background-color 0.2s, transform 0.2s;
 }
 
-.correct-swatch {
-  border: 3px solid #00FF00; 
-  box-shadow: 0 0 10px #00FF00;
+.reset-button:hover {
+  background-color: #e64a19;
+  transform: scale(1.05);
 }
 
 .countdown {
-  font-size: 48px;
+  font-size: 200px;
   font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  color: #ff5722;
+  text-shadow: 0px 0px 20px rgba(255, 87, 34, 0.7);
 }
