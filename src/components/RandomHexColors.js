@@ -7,6 +7,22 @@ export default function RandomHexColors() {
 	const [answer, setAnswer] = useState('');
 	const [feedback, setFeedback] = useState(''); // Hold the message that tells the user if they are correct or not
 	const [incorrectGuess, setIncorrectGuess] = useState(false);
+	const [countdown, setCountdown] = useState(3);
+	const [showSwatches, setShowSwatches] = useState(false);
+
+	useEffect(() => {
+		// Start the countdown only if the countdown is greater than 0
+		if (countdown > 0) {
+			const timerId = setTimeout(() => {
+				setCountdown(countdown - 1);
+			}, 1000); // Decrease countdown by 1 every second
+
+			return () => clearTimeout(timerId); // Cleanup timeout
+		} else {
+			setShowSwatches(true); // Show the swatches when countdown reaches 0
+		}
+	}, [countdown]); // Depend on countdown to trigger effect
+
 	const getRandomInt = (max) => {
 		return Math.floor(Math.random() * (max + 1));
 	}
@@ -44,6 +60,8 @@ export default function RandomHexColors() {
 	// This function is called when the user clicks the reset button and also generates three new colors
 	const resetColors = () => {
 		generateColorsAndAnswer(); // Reuse the function to reset colors and answer
+		setCountdown(3); // Reset the countdown
+		setShowSwatches(false); // Hide the swatches until the countdown finishes
 	}
 
 	// Define the click event handler for each square
@@ -60,37 +78,43 @@ export default function RandomHexColors() {
 
 	return (
 		<div className='game-container'>
-			<div className='square-container'>
-				{colors.map((color, index) => (
-					// console.log(`Style for square ${index}:`, { backgroundColor: color }); // Log the style object for each square
-					<div
-						key={index}
-						// conditionally apply the "correct-swatch" class to the square if the user selects the correct color
-						// by checking if the incorrectGuess state is true and the color is equal to the answer
-						// If the condition is true, the "correct-swatch" class is applied, otherwise it is not
-						className={`square ${incorrectGuess && color === answer ? 'correct-swatch' : ''}`}
-						style={{ backgroundColor: color }}
-						onClick={() => handleSwatchClick(color)}>
-						{/* Conditionally render the hex color text */}
-						{feedback && (
-							<span style={{
-								position: 'absolute',
-								bottom: '5px',
-								right: '5px',
-								color: '#FFF',
-								fontSize: '12px',
-								fontWeight: 'bold',
-								textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)' // Enhance readability over varying colors
-							}}>
-								{color.toUpperCase()}
-							</span>
-						)}
+			{!showSwatches ? ( // Show the countdown if showSwatches is false
+				<div className="countdown">{countdown}</div>
+			) : ( // Show the swatches if showSwatches is true
+				<>
+					<div className='square-container'>
+						{colors.map((color, index) => (
+							// console.log(`Style for square ${index}:`, { backgroundColor: color }); // Log the style object for each square
+							<div
+								key={index}
+								// conditionally apply the "correct-swatch" class to the square if the user selects the correct color
+								// by checking if the incorrectGuess state is true and the color is equal to the answer
+								// If the condition is true, the "correct-swatch" class is applied, otherwise it is not
+								className={`square ${incorrectGuess && color === answer ? 'correct-swatch' : ''}`}
+								style={{ backgroundColor: color }}
+								onClick={() => handleSwatchClick(color)}>
+								{/* Conditionally render the hex color text */}
+								{feedback && (
+									<span style={{
+										position: 'absolute',
+										bottom: '5px',
+										right: '5px',
+										color: '#FFF',
+										fontSize: '12px',
+										fontWeight: 'bold',
+										textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)' // Enhance readability over varying colors
+									}}>
+										{color.toUpperCase()}
+									</span>
+								)}
+							</div>
+						))}
 					</div>
-				))}
-			</div>
-			<p className='hex-color'>{answer}</p>
-			<p className='status-message'>{feedback}</p>
-			<button className='reset-button' onClick={resetColors}>Reset/Play Again</button>
+					<p className='hex-color'>{answer}</p>
+					<p className='status-message'>{feedback}</p>
+					<button className='reset-button' onClick={resetColors}>Reset/Play Again</button>
+				</>
+			)}
 		</div>
 	);
 }

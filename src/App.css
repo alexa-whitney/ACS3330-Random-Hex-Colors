@@ -41,3 +41,12 @@
   border: 3px solid #00FF00; 
   box-shadow: 0 0 10px #00FF00;
 }
+
+.countdown {
+  font-size: 48px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
