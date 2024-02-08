@@ -6,7 +6,7 @@ export default function RandomHexColors() {
 	const [colors, setColors] = useState([]);
 	const [answer, setAnswer] = useState('');
 	const [feedback, setFeedback] = useState(''); // Hold the message that tells the user if they are correct or not
-
+	const [incorrectGuess, setIncorrectGuess] = useState(false); 
 	const getRandomInt = (max) => {
 		return Math.floor(Math.random() * (max + 1));
 	}
@@ -31,6 +31,7 @@ export default function RandomHexColors() {
 		const newAnswer = newColors[Math.floor(Math.random() * newColors.length)]; // Select a random color from the new colors
 		setAnswer(newAnswer); // Set the "correct" color as the answer
 		setFeedback(''); // Reset feedback message when new colors are generated
+		setIncorrectGuess(false); // Reset incorrectGuess state when new colors are generated
 	};
 
 	// This function is called when the component is first rendered
@@ -50,8 +51,10 @@ export default function RandomHexColors() {
 	const handleSwatchClick = (color) => {
 		if (color === answer) {
 			setFeedback('Correct!'); // Set the feedback message to "Correct!" if the user selects the correct color
+			setIncorrectGuess(false); // Set the incorrectGuess state to false
 		} else {
 			setFeedback('Incorrect. Try again!'); // Set the feedback message to "Incorrect!" if the user selects the wrong color
+			setIncorrectGuess(true); // Set the incorrectGuess state to true
 		}
 	};
 
@@ -62,7 +65,10 @@ export default function RandomHexColors() {
 					// console.log(`Style for square ${index}:`, { backgroundColor: color }); // Log the style object for each square
 					<div
 						key={index}
-						className='square'
+						// conditionally apply the "correct-swatch" class to the square if the user selects the correct color
+						// by checking if the incorrectGuess state is true and the color is equal to the answer
+						// If the condition is true, the "correct-swatch" class is applied, otherwise it is not
+						className={`square ${incorrectGuess && color === answer ? 'correct-swatch' : ''}`}
 						style={{ backgroundColor: color }}
 						onClick={() => handleSwatchClick(color)}>
 					</div>

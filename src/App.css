@@ -21,7 +21,6 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-/* New styles */
 .game-container {
   display: flex;
   flex-direction: column;
@@ -36,4 +35,9 @@
 
 .reset-button {
   margin-top: 20px;
+}
+
+.correct-swatch {
+  border: 3px solid #00FF00; 
+  box-shadow: 0 0 10px #00FF00;
 }
